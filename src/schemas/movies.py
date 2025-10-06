@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, field_validator, ConfigDict
-from typing import List
+from typing import List, Optional
 from datetime import date, datetime
 
 from database.models import MovieStatusEnum
@@ -18,6 +18,7 @@ class ActorSchema(BaseModel):
     id: int
     name: str
 
+
 class LanguageSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -30,7 +31,7 @@ class CountrySchema(BaseModel):
 
     id: int
     code: str
-    name: str | None = None
+    name: Optional[str] = None  # ← Заме
 
 
 class MovieListItemSchema(BaseModel):
@@ -45,8 +46,8 @@ class MovieListItemSchema(BaseModel):
 
 class MovieListResponseSchema(BaseModel):
     movies: List[MovieListItemSchema]
-    prev_page: str | None = None
-    next_page: str | None = None
+    prev_page: Optional[str] = None
+    next_page: Optional[str] = None
     total_pages: int
     total_items: int
 
@@ -91,10 +92,10 @@ class MovieCreateSchema(BaseModel):
 
 
 class MovieUpdateSchema(BaseModel):
-    name: str | None = Field(None, max_length=255)
-    date: date | None = None
-    score: float | None = Field(None, ge=0, le=100)
-    overview: str | None = None
-    status: MovieStatusEnum | None = None
-    budget: float | None = Field(None, ge=0)
-    revenue: float | None = Field(None, ge=0)
+    name: Optional[str] = Field(None, max_length=255)
+    date: Optional[date] = None
+    score: Optional[float] = Field(None, ge=0, le=100)
+    overview: Optional[str] = None
+    status: Optional[MovieStatusEnum] = None
+    budget: Optional[float] = Field(None, ge=0)
+    revenue: Optional[float] = Field(None, ge=0)
